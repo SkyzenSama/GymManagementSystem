@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Member</title>
+    <style>
+        /* Genel Sayfa Stili */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #444;
+        }
+
+        /* Form Stili */
+        form {
+            max-width: 500px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin: 10px 0 5px;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus,
+        input[type="date"]:focus,
+        select:focus {
+            border-color: #6a11cb;
+            outline: none;
+            box-shadow: 0 0 5px rgba(106, 17, 203, 0.5);
+        }
+
+        button {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            transition: background 0.3s ease, transform 0.2s;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: translateY(-2px);
+        }
+
+        a {
+            text-decoration: none;
+            color: #6a11cb;
+            font-weight: bold;
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Member</h1>
+    <form method="POST">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ member['name'] }}" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="Male" {% if member['gender'] == 'Male' %}selected{% endif %}>Male</option>
+            <option value="Female" {% if member['gender'] == 'Female' %}selected{% endif %}>Female</option>
+            <option value="Other" {% if member['gender'] == 'Other' %}selected{% endif %}>Other</option>
+        </select>
+
+        <label for="joining_date">Joining Date:</label>
+        <input type="date" id="joining_date" name="joining_date" value="{{ member['joining_date'] }}">
+
+        <label for="contact_number">Contact Number:</label>
+        <input type="text" id="contact_number" name="contact_number" value="{{ member['contact_number'] }}" required>
+
+        <label for="date_of_birth">Date of Birth:</label>
+        <input type="date" id="date_of_birth" name="date_of_birth" value="{{ member['date_of_birth'] }}">
+
+        <label for="membership_type">Membership Type:</label>
+        <select id="membership_type" name="membership_type">
+            <option value="Gold" {% if member['membership_type'] == 'Gold' %}selected{% endif %}>Gold</option>
+            <option value="Silver" {% if member['membership_type'] == 'Silver' %}selected{% endif %}>Silver</option>
+            <option value="Platinum" {% if member['membership_type'] == 'Platinum' %}selected{% endif %}>Platinum</option>
+        </select>
+
+        <label for="emergency_contact_name">Emergency Contact Name:</label>
+        <input type="text" id="emergency_contact_name" name="emergency_contact_name" value="{{ member['emergency_contact_name'] }}">
+
+        <label for="emergency_contact_number">Emergency Contact Number:</label>
+        <input type="text" id="emergency_contact_number" name="emergency_contact_number" value="{{ member['emergency_contact_number'] }}">
+        <label>Trainer:</label>
+        <select name="trainer_id" required>
+            {% for trainer in trainers %}
+            <option value="{{ trainer['trainer_id'] }}" {% if trainer['trainer_id'] == member['trainer_id'] %}selected{% endif %}>
+                {{ trainer['name'] }}
+            </option>
+            {% endfor %}
+        </select>
+
+
+        <button type="submit">Update Member</button>
+    </form>
+
+    <a href="{{ url_for('view_members') }}">Back to Members</a>
+</body>
+</html>

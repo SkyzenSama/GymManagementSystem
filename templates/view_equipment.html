@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Equipment List</title>
+    <style>
+        /* Genel Stil */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+            margin: 20px 0;
+        }
+
+        /* Arama Kutusu */
+        form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-right: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #4a0f9e;
+        }
+
+        /* Ekleme Butonu */
+        .add {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        .add:hover {
+            background-color: #0056b3;
+        }
+
+        /* Tablo Stili */
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #6a11cb;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Buton Stilleri */
+        .btn {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .edit {
+            background-color: #28a745;
+        }
+        .edit:hover {
+            background-color: #218838;
+        }
+        .delete {
+            background-color: #dc3545;
+        }
+        .delete:hover {
+            background-color: #c82333;
+        }
+
+        /* Ana Sayfaya Dön Butonu */
+        .back-home {
+            display: block;
+            text-align: center;
+            margin: 20px;
+            font-size: 16px;
+            color: #6a11cb;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .back-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Başlık -->
+    <h1>Gym Equipment List</h1>
+
+    <!-- Arama Kutusu -->
+    <form method="GET" action="{{ url_for('search_equipment') }}">
+        <input type="text" name="query" placeholder="Search Equipment..." required>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Yeni Equipment Ekleme Butonu -->
+    <a href="{{ url_for('add_equipment') }}" class="add">Add New Equipment</a>
+
+    <!-- Equipment Listesi Tablosu -->
+    <table>
+        <tr>
+            <th>Item ID</th>
+            <th>Name</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Manufacturer</th>
+            <th>Maintenance Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for item in equipment %}
+        <tr>
+            <td>{{ item['item_id'] }}</td>
+            <td>{{ item['name'] }}</td>
+            <td>{{ item['quantity'] }}</td>
+            <td>${{ "%.2f"|format(item['price']) }}</td>
+            <td>{{ item['manufacturer'] }}</td>
+            <td>{{ item['maintenance_date'] }}</td>
+            <td>
+                <!-- Edit Butonu -->
+                <a href="{{ url_for('edit_equipment', item_id=item['item_id']) }}" class="btn edit">Edit</a>
+
+                <!-- Delete Butonu -->
+                <form action="{{ url_for('delete_equipment', item_id=item['item_id']) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn delete" onclick="return confirm('Are you sure you want to delete this equipment?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Ana Sayfaya Geri Dön Linki -->
+    <a href="{{ url_for('index') }}" class="back-home">Back to Home</a>
+</body>
+</html>

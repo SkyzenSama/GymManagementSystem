@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Members</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #6a11cb;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .filter-form {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .filter-form label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+            color: #444;
+        }
+        .filter-form select,
+        .filter-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .filter-form button {
+            width: 100%;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .filter-form button:hover {
+            background-color: #4a0f9e;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #6a11cb;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .back-link {
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            font-weight: bold;
+            color: #6a11cb;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: #4a0f9e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filter Members</h1>
+    <form method="GET" action="{{ url_for('filter_members') }}" class="filter-form">
+        <label for="membership_type">Membership Type:</label>
+        <select name="membership_type" id="membership_type">
+            <option value="">All</option>
+            <option value="Gold">Gold</option>
+            <option value="Silver">Silver</option>
+            <option value="Platinum">Platinum</option>
+        </select>
+
+        <label for="trainer_id">Trainer:</label>
+        <select name="trainer_id" id="trainer_id">
+            <option value="">All</option>
+            {% for trainer in trainers %}
+            <option value="{{ trainer['trainer_id'] }}">{{ trainer['name'] }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="joining_date_start">Joining Date (Start):</label>
+        <input type="date" name="joining_date_start" id="joining_date_start">
+
+        <label for="joining_date_end">Joining Date (End):</label>
+        <input type="date" name="joining_date_end" id="joining_date_end">
+
+        <button type="submit">Apply Filters</button>
+    </form>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Joining Date</th>
+                <th>Contact Number</th>
+                <th>Membership Type</th>
+                <th>Trainer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for member in members %}
+            <tr>
+                <td>{{ member['member_id'] }}</td>
+                <td>{{ member['name'] }}</td>
+                <td>{{ member['gender'] }}</td>
+                <td>{{ member['joining_date'] }}</td>
+                <td>{{ member['contact_number'] }}</td>
+                <td>{{ member['membership_type'] }}</td>
+                <td>{{ member['trainer_name'] if member['trainer_name'] else "No Trainer" }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ url_for('index') }}" class="back-link">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trainer List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #444;
+        }
+
+        /* Search Bar */
+        form {
+            text-align: center;
+            margin: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 300px;
+            box-sizing: border-box;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #4a0f9e;
+        }
+
+        /* Add New Button */
+        .add {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 0;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .add:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table */
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #6a11cb;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            align-items: center;
+        }
+        .btn {
+            padding: 6px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .edit {
+            background-color: #28a745;
+        }
+        .edit:hover {
+            background-color: #218838;
+        }
+        .delete {
+            background-color: #dc3545;
+        }
+        .delete:hover {
+            background-color: #c82333;
+        }
+        .assign {
+            background-color: #6a11cb;
+        }
+        .assign:hover {
+            background-color: #4a0f9e;
+        }
+
+        /* Back to Home */
+        .back-home {
+            display: block;
+            text-align: center;
+            margin: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #6a11cb;
+        }
+        .back-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Trainer List</h1>
+
+    <!-- Search Bar -->
+    <form method="GET" action="{{ url_for('search_trainers') }}">
+        <input type="text" name="query" placeholder="Search Trainers by Name or Role" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Add Trainer Button -->
+    <a href="{{ url_for('add_trainer') }}" class="add">Add New Trainer</a>
+
+    <!-- Trainer Table -->
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Gender</th>
+                <th>Contact Number</th>
+                <th>Role</th>
+                <th>Experience (Years)</th>
+                <th>Specialty</th>
+                <th>Assigned Workouts</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trainer in trainers %}
+            <tr>
+                <td>{{ trainer['trainer_id'] }}</td>
+                <td>{{ trainer['name'] }}</td>
+                <td>{{ trainer['gender'] }}</td>
+                <td>{{ trainer['contact_number'] }}</td>
+                <td>{{ trainer['role'] }}</td>
+                <td>{{ trainer['experience'] }}</td>
+                <td>{{ trainer['specialty'] }}</td>
+                <td>
+                    {% if trainer['assigned_workouts'] %}
+                        {{ trainer['assigned_workouts'] }}
+                    {% else %}
+                        No Workouts Assigned
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <!-- Assign Workout Button -->
+                        <a href="{{ url_for('assign_workout', trainer_id=trainer['trainer_id']) }}" class="btn assign">Assign Workout</a>
+
+                        <!-- Edit Button -->
+                        <a href="{{ url_for('edit_trainer', trainer_id=trainer['trainer_id']) }}" class="btn edit">Edit</a>
+
+                        <!-- Delete Button -->
+                        <form action="{{ url_for('delete_trainer', trainer_id=trainer['trainer_id']) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn delete" onclick="return confirm('Are you sure you want to delete this trainer?');">Delete</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Back to Home -->
+    <a href="{{ url_for('index') }}" class="back-home">Back to Home</a>
+</body>
+</html>

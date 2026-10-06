@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+            color: #444;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #6a11cb;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .stat {
+            text-align: center;
+            font-size: 20px;
+            margin-top: 20px;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #6a11cb;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard</h1>
+        <div class="stat">
+            <p><strong>Total Members:</strong> {{ total_members }}</p>
+        </div>
+
+        <h2>Trainer Statistics</h2>
+        <table>
+            <tr>
+                <th>Trainer</th>
+                <th>Total Members</th>
+            </tr>
+            {% for stat in trainer_stats %}
+            <tr>
+                <td>{{ stat['trainer_name'] }}</td>
+                <td>{{ stat['total_members'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Membership Distribution</h2>
+        <table>
+            <tr>
+                <th>Membership Type</th>
+                <th>Total Members</th>
+            </tr>
+            {% for stat in membership_stats %}
+            <tr>
+                <td>{{ stat['membership_type'] }}</td>
+                <td>{{ stat['total_members'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h2>Trainer Workouts</h2>
+        <table>
+            <tr>
+                <th>Trainer</th>
+                <th>Assigned Workouts</th>
+            </tr>
+            {% for stat in trainer_workouts %}
+            <tr>
+                <td>{{ stat['trainer_name'] }}</td>
+                <td>
+                    {% if stat['workouts'] %}
+                        {{ stat['workouts'] }}
+                    {% else %}
+                        No Workouts Assigned
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{{ url_for('index') }}">Back to Home</a>
+    </div>
+</body>
+</html>

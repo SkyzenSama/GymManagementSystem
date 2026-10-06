@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Equipment</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Edit Gym Equipment</h1>
+    <form method="POST" style="max-width: 400px; margin: auto;">
+        <label>Name:</label>
+        <input type="text" name="name" value="{{ equipment['name'] }}" required><br>
+        <label>Quantity:</label>
+        <input type="number" name="quantity" value="{{ equipment['quantity'] }}" required><br>
+        <label>Price:</label>
+        <input type="text" name="price" value="{{ equipment['price'] }}" required><br>
+        <label>Manufacturer:</label>
+        <input type="text" name="manufacturer" value="{{ equipment['manufacturer'] }}" required><br>
+        <label>Maintenance Date:</label>
+        <input type="date" name="maintenance_date" value="{{ equipment['maintenance_date'] }}" required><br>
+        <button type="submit">Update Equipment</button>
+    </form>
+    <a href="{{ url_for('view_equipment') }}" style="text-align: center; display: block; margin-top: 20px;">Back to Equipment List</a>
+</body>
+</html>

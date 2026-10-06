@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Trainer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+            margin-top: 20px;
+        }
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #4a0f9e;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #6a11cb;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Edit Trainer</h1>
+    <form method="POST">
+        <label>Name:</label>
+        <input type="text" name="name" value="{{ trainer['name'] }}" required>
+        
+        <label>Gender:</label>
+        <select name="gender">
+            <option {% if trainer['gender'] == 'Male' %}selected{% endif %}>Male</option>
+            <option {% if trainer['gender'] == 'Female' %}selected{% endif %}>Female</option>
+        </select>
+        
+        <label>Contact Number:</label>
+        <input type="text" name="contact_number" value="{{ trainer['contact_number'] }}" required>
+
+        <label>Role:</label>
+        <input type="text" name="role" value="{{ trainer['role'] }}" required>
+
+        <label>Experience (Years):</label>
+        <input type="number" name="experience" value="{{ trainer['experience'] }}" required>
+
+        <label>Specialty:</label>
+        <input type="text" name="specialty" value="{{ trainer['specialty'] }}" required>
+
+        <button type="submit">Update Trainer</button>
+    </form>
+    <a href="{{ url_for('view_trainers') }}">Back to Trainer List</a>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assign Workout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #6a11cb;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4a0f9e;
+        }
+        a {
+            text-align: center;
+            display: block;
+            color: #6a11cb;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Assign Workout to Trainer</h1>
+        <p><strong>Trainer:</strong> {{ trainer['name'] }}</p>
+        <form method="POST" action="{{ url_for('assign_workout', trainer_id=trainer['trainer_id']) }}">
+            <label for="routine_id">Select Workout:</label>
+            <select id="routine_id" name="routine_id" required>
+                {% for workout in workouts %}
+                <option value="{{ workout['routine_id'] }}">{{ workout['routine_name'] }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Assign Workout</button>
+        </form>
+        <a href="{{ url_for('view_trainers') }}">Back to Trainers List</a>
+    </div>
+</body>
+</html>

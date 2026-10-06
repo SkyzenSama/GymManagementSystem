@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Members</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+            margin: 20px 0;
+        }
+        table {
+            width: 90%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #6a11cb;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .action-btn {
+            padding: 5px 10px;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .edit {
+            background-color: #28a745;
+        }
+        .delete {
+            background-color: #dc3545;
+        }
+        .add-btn {
+            display: block;
+            margin: 20px auto;
+            width: 150px;
+            text-align: center;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .add-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Member List</h1>
+
+    <!-- Add New Member Button -->
+    <a href="{{ url_for('add_member') }}" class="add-btn">Add New Member</a>
+
+    <!-- Members Table -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Gender</th>
+            <th>Joining Date</th>
+            <th>Contact Number</th>
+            <th>Date of Birth</th>
+            <th>Membership Type</th>
+            <th>Emergency Contact Name</th>
+            <th>Emergency Contact Number</th>
+            <th>Trainer</th> <!-- Yeni Eğitmen Sütunu -->
+            <th>Actions</th>
+        </tr>
+        {% for member in members %}
+        <tr>
+            <td>{{ member['member_id'] }}</td>
+            <td>{{ member['name'] }}</td>
+            <td>{{ member['gender'] }}</td>
+            <td>{{ member['joining_date'] }}</td>
+            <td>{{ member['contact_number'] }}</td>
+            <td>{{ member['date_of_birth'] }}</td>
+            <td>{{ member['membership_type'] }}</td>
+            <td>{{ member['emergency_contact_name'] }}</td>
+            <td>{{ member['emergency_contact_number'] }}</td>
+            <td>
+                {{ member['trainer_name'] if member['trainer_name'] else "No Trainer Assigned" }}
+            </td> <!-- Eğitmen Adı veya Varsayılan Metin -->
+            <td>
+                <!-- Edit Button -->
+                <a href="{{ url_for('edit_member', member_id=member['member_id']) }}" class="action-btn edit">Edit</a>
+                
+                <!-- Delete Button -->
+                <form action="{{ url_for('delete_member', member_id=member['member_id']) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="action-btn delete" onclick="return confirm('Are you sure you want to delete this member?');">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Back to Home -->
+    <a href="{{ url_for('index') }}" style="display: block; text-align: center; margin-top: 20px; font-weight: bold; color: #6a11cb;">Back to Home</a>
+</body>
+</html>
